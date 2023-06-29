@@ -1,0 +1,7 @@
+version: '2.1'
+
+services:
+  nanomq:
+    build: ./nanomq
+    ports:
+      - 1883:1883

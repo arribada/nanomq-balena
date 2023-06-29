@@ -1,0 +1,29 @@
+FROM balenalib/%%BALENA_ARCH%%-alpine:3.16 as builder
+
+RUN apk add git gcc cmake make musl-dev g++
+
+WORKDIR /
+
+RUN git clone https://github.com/emqx/nanomq.git && cd nanomq && git submodule update --init --recursive
+
+RUN cd nanomq && mkdir build && cd build && \
+    cmake .. && make
+
+FROM balenalib/%%BALENA_ARCH%%-alpine:3.16
+
+COPY --from=builder /nanomq/build/nanomq/nanomq /usr/local/nanomq/
+COPY --from=builder /nanomq/build/nanomq_cli/nanomq_cli /usr/local/nanomq/
+COPY --from=builder /usr/lib/libgcc_s.so.1 /usr/lib/
+COPY --from=builder /nanomq/etc/nanomq.conf /etc/nanomq.conf
+COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+
+WORKDIR /usr/local/nanomq
+
+RUN ln -s /usr/local/nanomq/nanomq /usr/bin/nanomq && \
+    ln -s /usr/local/nanomq/nanomq_cli /usr/bin/nanomq_cli
+
+EXPOSE 1883
+
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
+
+CMD ["--url", "nmq-tcp://0.0.0.0:1883"]
