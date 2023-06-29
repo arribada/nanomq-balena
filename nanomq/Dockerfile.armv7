@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_ARCH%%-alpine:3.16 as builder
+FROM balenalib/armv7-alpine:3.16 as builder
 
 RUN apk add git gcc cmake make musl-dev g++
 
@@ -9,7 +9,7 @@ RUN git clone https://github.com/emqx/nanomq.git && cd nanomq && git submodule u
 RUN cd nanomq && mkdir build && cd build && \
     cmake .. && make
 
-FROM balenalib/%%BALENA_ARCH%%-alpine:3.16
+FROM balenalib/armv7-alpine:3.16
 
 COPY --from=builder /nanomq/build/nanomq/nanomq /usr/local/nanomq/
 COPY --from=builder /nanomq/build/nanomq_cli/nanomq_cli /usr/local/nanomq/
