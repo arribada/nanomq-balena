@@ -17,6 +17,8 @@ COPY --from=builder /usr/lib/libgcc_s.so.1 /usr/lib/
 COPY --from=builder /nanomq/etc/nanomq.conf /etc/nanomq.conf
 COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 
+RUN ["chmod", "+x", "/usr/bin/docker-entrypoint.sh"]
+
 WORKDIR /usr/local/nanomq
 
 RUN ln -s /usr/local/nanomq/nanomq /usr/bin/nanomq && \
@@ -26,4 +28,4 @@ EXPOSE 1883
 
 ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
 
-CMD ["--url", "nmq-tcp://0.0.0.0:1883"]
+CMD ["--url", "mqtt-tcp://0.0.0.0:1883"]
