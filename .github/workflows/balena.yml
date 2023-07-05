@@ -1,3 +1,5 @@
+name: Create and publish a balenaBlock
+
 on:
   push:
     branches:
