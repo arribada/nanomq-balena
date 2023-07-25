@@ -1,6 +1,6 @@
 name: nanomq
 description: >-
-  [NanoMQ](https://nanomq.io/) is a lightweight MQTT broker designed for use on embedded devices, such the Raspberry Pi. Written in C and released under the MIT license, it uses the libev library for handling events. This balenaBlock is designed for Arribada's wildlife conservation and humanitarian projects.
+  NanoMQ is a lightweight MQTT broker designed for use on embedded devices.
 version: 1.0.0
 type: sw.block
 assets:
@@ -23,3 +23,6 @@ data:
     - raspberrypi400-64
     - intel-nuc
     - genericx86-64-ext
+post-provisioning: >-
+  [NanoMQ](https://nanomq.io/) is a lightweight MQTT broker designed for use on embedded devices, such the Raspberry Pi. Written in C and released under the MIT license, it uses the libev library for handling events. This balenaBlock is designed for Arribada's wildlife conservation and humanitarian projects.
+  
